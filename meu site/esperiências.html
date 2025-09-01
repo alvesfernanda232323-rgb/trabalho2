@@ -1,0 +1,326 @@
+ <!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfólio Pessoal — Fernanda Alves</title>
+  <style>
+    /*  VARIÁVEIS DE CORES E TEMA */
+    :root{
+      --bg:#0b1020; --bg-soft:#111831; --text:#e6ecff; --muted:#b5c2ff;
+      --accent:#7aa2ff; --accent-2:#9dd7ff; --card:#0f152b; --border:#22305f; --pill-bg:#1a2347;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7f8fb; --bg-soft:#ffffff; --text:#0f172a; --muted:#334155;
+        --accent:#3256ff; --accent-2:#2ea3ff; --card:#ffffff; --border:#e5e7eb; --pill-bg:#eef2ff;
+      }
+    }
+
+    /* RESET / BASE  */
+    *{ box-sizing:border-box }
+    html,body{ height:100% }
+    html{ scroll-behavior: smooth; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(122,162,255,.18), transparent 40%),
+        radial-gradient(1000px 500px at 90% 10%, rgba(157,215,255,.18), transparent 45%),
+        var(--bg);
+      line-height:1.65;
+    }
+
+    /*  NAV (MENU) */
+    .nav{
+      position:sticky; top:0; z-index:1000;
+      background:linear-gradient(180deg,var(--card),var(--bg-soft));
+      border-bottom:1px solid var(--border);
+      backdrop-filter:saturate(140%) blur(6px);
+    }
+    .nav__inner{
+      max-width:920px; margin:0 auto; padding:10px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .brand{color:var(--text); text-decoration:none; font-weight:800; letter-spacing:.2px}
+    .nav__toggle{
+      display:none; background:linear-gradient(180deg,var(--pill-bg),var(--bg-soft));
+      color:var(--text); border:1px solid var(--border); padding:8px 12px; border-radius:10px; cursor:pointer;
+    }
+    .nav__links{display:flex; gap:10px; flex-wrap:wrap}
+    .nav__link{
+      text-decoration:none; font-weight:600; font-size:14px; color:var(--text);
+      border:1px solid var(--border); border-radius:12px; padding:10px 14px;
+      background:linear-gradient(180deg,var(--pill-bg),var(--bg-soft));
+      transition:transform .06s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .nav__link:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.12); border-color:var(--accent)}
+    .nav__link.active{border-color:var(--accent); box-shadow:0 0 0 2px rgba(122,162,255,.25) inset}
+    @media (max-width:760px){
+      .nav__toggle{display:inline-block}
+      .nav__links{display:none; flex-direction:column; width:100%}
+      .nav.open .nav__links{display:flex}
+    }
+
+    /* ============ LAYOUT / CONTAINER ============ */
+    .container{
+      max-width: 920px;
+      padding: clamp(16px,2vw,32px);
+      margin: 0 auto;
+      display: grid;
+      gap: 16px;
+    }
+
+    /* ============ CARD GENÉRICO ============ */
+    .card{
+      background: linear-gradient(180deg, var(--card), var(--bg-soft));
+      border:1px solid var(--border);
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+      padding: clamp(20px,4vw,40px);
+    }
+
+    /*  TIPOGRAFIA / TÍTULOS*/
+    header h1{ margin:0 0 4px; font-size: clamp(28px,4vw,40px); letter-spacing:.2px }
+    .subtitle{ margin:0 0 18px; color:var(--muted); font-size:clamp(14px,2.2vw,16px); text-align:justify }
+
+    h2{
+      margin:0 0 12px; font-size:clamp(18px,3vw,22px); line-height:1.25;
+      display:inline-block; position:relative;
+    }
+    h2::after{
+      content:""; position:absolute; left:0; bottom:-6px; width:48px; height:3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius:2px;
+    }
+
+    p{ margin:0 0 12px; text-align:justify }
+    ul{ padding-left:20px; margin:8px 0 0 }
+    li{ margin:8px 0; text-align:justify }
+
+    .divider{
+      height:1px; border:0;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin:18px 0 24px;
+    }
+
+    /* ============ PILLS ============ */
+    .pills{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px }
+    .pill{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--pill-bg), var(--bg-soft));
+      color:var(--text);
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:13px; font-weight:600;
+      white-space:nowrap;
+    }
+
+    /*BLOCO DE EXPERIÊNCIA (“job”)  */
+    .job h3{ margin:0 0 6px; font-size: clamp(18px, 2.6vw, 22px) }
+    .meta{ margin:0 0 10px; color:var(--muted); font-size:14px }
+    .role{ font-weight:700; color:var(--text) }
+
+    /* LISTAS SIMPLES  */
+    .simple{ list-style: disc }
+
+    /* MPRESSÃO  */
+    @media print{
+      :root{
+        --bg:#fff; --bg-soft:#fff; --text:#000; --muted:#333; --card:#fff; --border:#bbb; --pill-bg:#f4f6ff;
+      }
+      body{ background:#fff }
+      .card{ box-shadow:none; border-color:#bbb }
+      .nav{ position:static } .nav__links,.nav__toggle{ display:none }
+    }
+  </style>
+</head>
+<body>
+  <!-- o menu será injetado por JS logo abaixo -->
+
+  <div class="container">
+
+    <!-- Cabeçalho -->
+    <article class="card" role="article" aria-label="Apresentação profissional de Fernanda Alves">
+      <header id="sobre-mim">
+        <h1>Fernanda Alves</h1>
+        <p class="subtitle">Experiência Profissional • Cursos e Aprimoramentos • Idiomas</p>
+        <div class="pills" aria-label="Competências em destaque">
+          <span class="pill">Gestão de Projetos</span>
+          <span class="pill">Monitoramento</span>
+          <span class="pill">Relatórios</span>
+          <span class="pill">Auditoria</span>
+        </div>
+      </header>
+    </article>
+
+    <!-- Experiências -->
+    <section class="card" aria-labelledby="exp-title" id="portfolio">
+      <h2 id="exp-title">Experiência Profissional</h2>
+
+      <article class="job" aria-label="AEDAS — Coordenadora de Logística">
+        <h3>Associação Estadual de Defesa Ambiental e Social — <strong>AEDAS</strong></h3>
+        <p class="meta"><span class="role">Coordenadora de Logística — Projeto Paraopeba (ATI Brumadinho)</span> • 12/2021 — 11/2023</p>
+        <p>Assessoria Técnica Independente às pessoas atingidas pelo rompimento da barragem do Córrego do Feijão (Brumadinho/MG).</p>
+        <ul>
+          <li>Gestão da equipe de logística e administrativa de Brumadinho; estruturação de escritório e gestão de frota.</li>
+          <li>Construção de fluxos de logística; cronograma orçamentário das atividades participativas; cotações e processos.</li>
+          <li>Relatórios gerenciais (administrativo e logística); prestação de contas para financeiro e finalístico; atendimento à auditoria.</li>
+          <li>Planejamento e acompanhamento de atividades de campo com as comunidades atingidas.</li>
+          <li>Desmobilização de escritório e frota ao término do ciclo.</li>
+        </ul>
+        <div class="pills">
+          <span class="pill">Logística</span><span class="pill">Orçamento</span><span class="pill">Frota</span><span class="pill">Relatórios</span>
+        </div>
+      </article>
+
+      <hr class="divider" aria-hidden="true" />
+
+      <article class="job" aria-label="AEDAS — Assistente Administrativo">
+        <h3>Associação Estadual de Defesa Ambiental e Social — <strong>AEDAS</strong></h3>
+        <p class="meta"><span class="role">Assistente Administrativo</span> • 07/2020 — 11/2021</p>
+        <ul>
+          <li>Estruturação de banco de horas em Excel; correção de folha ponto; apoio à implementação de aplicativo de ponto.</li>
+          <li>Orçamentos diversos (softwares, estrutura, frotas, alimentação, móveis, material gráfico) e negociação com terceirizados.</li>
+          <li>Conferência documental (Termos de Referência) e elaboração de relatórios administrativos.</li>
+          <li>Acompanhamento de demonstrativos de pagamentos e rotinas financeiras.</li>
+        </ul>
+        <div class="pills">
+          <span class="pill">Excel</span><span class="pill">Orçamentos</span><span class="pill">Documentação</span>
+        </div>
+      </article>
+
+      <hr class="divider" aria-hidden="true" />
+
+      <article class="job" aria-label="EREFAMA — Professora e Coordenação">
+        <h3>Associação Regional Escola Família Agrícola Margarida Alves — <strong>EREFAMA</strong></h3>
+        <p class="meta"><span class="role">Professora de Matemática | Filosofia | Informática Básica</span> • 02/2015 — 07/2020</p>
+        <p>Docência no Curso Médio Técnico em Agropecuária (Simonésia/MG), com foco em metodologias ativas e formação integrada.</p>
+        <p class="meta"><span class="role">Coordenadora Pedagógica</span> • 02/2019 — 07/2020</p>
+        <ul>
+          <li>Acompanhamento de leis e diretrizes da Educação, Educação do Campo e Pedagogia da Alternância.</li>
+          <li>Estruturação do Projeto Político-Pedagógico; acompanhamento pedagógico e gestão da equipe docente.</li>
+          <li>Gestão de planos de ensino, diário digital e planos de aula; elaboração de relatórios pedagógicos.</li>
+          <li>Articulação com a Superintendência de Ensino.</li>
+        </ul>
+        <div class="pills">
+          <span class="pill">Educação do Campo</span><span class="pill">PPP</span><span class="pill">Gestão Pedagógica</span>
+        </div>
+      </article>
+    </section>
+
+    <!-- Cursos -->
+    <section class="card" aria-labelledby="cursos" id="formacao">
+      <h2 id="cursos">Cursos e Aprimoramentos</h2>
+      <ul class="simple">
+        <li>Plataforma <strong>Monday</strong> — níveis básico e intermediário;</li>
+        <li><strong>Excel Avançado</strong> — funções PROCV, PROCH, PROCX, SE;</li>
+        <li><strong>Pacote Office</strong> — nível intermediário;</li>
+        <li><strong>Permacultura</strong> — diplomada pela Unipermacultura.</li>
+      </ul>
+    </section>
+
+    <!-- Idiomas -->
+    <section class="card" aria-labelledby="idiomas" id="contato">
+      <h2 id="idiomas">Idiomas</h2>
+      <ul class="simple">
+        <li><strong>Português</strong> — avançado;</li>
+        <li><strong>Espanhol</strong> — básico;</li>
+        <li><strong>Inglês</strong> — básico.</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <!-- ================== SCRIPT: cria o menu ================== -->
+  <script>
+    (function(){
+      // 1) cria elementos
+      const nav = document.createElement('nav');
+      nav.className = 'nav';
+      nav.setAttribute('role','navigation');
+      nav.setAttribute('aria-label','Menu principal');
+
+      const inner = document.createElement('div');
+      inner.className = 'nav__inner';
+
+      const brand = document.createElement('a');
+      brand.className = 'brand';
+      brand.href = 'fernandaalves.html'; // marca aponta para a página "Sobre mim"
+      brand.textContent = 'Fernanda Alves';
+
+      const toggle = document.createElement('button');
+      toggle.className = 'nav__toggle';
+      toggle.type = 'button';
+      toggle.setAttribute('aria-expanded','false');
+      toggle.setAttribute('aria-label','Abrir menu');
+      toggle.textContent = 'Menu';
+
+      const links = document.createElement('div');
+      links.className = 'nav__links';
+
+      // 2) itens do menu
+      const items = [
+        {label:'Sobre mim', href:'fernandaalves.html'},
+        {label:'Formação', href:'formação.html'},
+        {label:'Portfólio', href:'esperiências.html'},
+        {label:'Contato', href:'contato.html'},
+      ];
+      items.forEach(({label, href})=>{
+        const a = document.createElement('a');
+        a.className = 'nav__link';
+        a.href = href;
+        a.textContent = label;
+        a.addEventListener('click', ()=>{
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded','false');
+        });
+        links.appendChild(a);
+      });
+
+      // 3) monta a estrutura e injeta no topo do body
+      inner.appendChild(brand);
+      inner.appendChild(toggle);
+      inner.appendChild(links);
+      nav.appendChild(inner);
+      document.body.prepend(nav);
+
+      // 4) toggle mobile
+      toggle.addEventListener('click', ()=>{
+        const opened = nav.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', opened ? 'true' : 'false');
+      });
+
+      // 5) scroll spy (funciona quando estiver nesta página com as âncoras abaixo)
+      const sectionMap = {
+        '#sobre-mim': document.querySelector('#sobre-mim'),
+        '#formacao': document.querySelector('#formacao'),
+        '#portfolio': document.querySelector('#portfolio'),
+        '#contato': document.querySelector('#contato'),
+      };
+      const linkEls = Array.from(links.querySelectorAll('.nav__link'));
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          const id = '#' + entry.target.id;
+          if(entry.isIntersecting){
+            linkEls.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+          }
+        });
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      Object.values(sectionMap).forEach(sec => sec && observer.observe(sec));
+
+      // 6) correção do deslocamento ao usar hash externo
+      function offsetHash(){
+        if(location.hash){
+          const el = document.querySelector(location.hash);
+          if(el){
+            const y = el.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top: y, behavior: 'smooth' });
+          }
+        }
+      }
+      window.addEventListener('load', offsetHash);
+    })();
+  </script>
+</body>
+</html>
